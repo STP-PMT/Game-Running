@@ -1,10 +1,12 @@
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseMotionAdapter;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class Borad extends JPanel {
@@ -15,6 +17,8 @@ public class Borad extends JPanel {
 	GameFrame s = new GameFrame();
 	Picture p = new Picture();
 	Timer t = new Timer();
+	JButton newButton = new JButton("New Game");
+	JButton ssButton = new JButton("Start");
 	private int size_x = s.getX();
 	private int size_y = s.getY();
 
@@ -30,21 +34,20 @@ public class Borad extends JPanel {
 		setLayout(null);
 		t.scheduleAtFixedRate(new Move(this), 0, new Random().nextInt(30) + 5);
 
-		this.addMouseMotionListener(new MouseMotionListener() {
-
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
+		this.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				X = e.getX();
 				Y = e.getY();
 			}
-
 		});
+		newButton.setSize(200,50);
+		newButton.setLocation(190,150);
+
+		ssButton.setSize(200,50);
+		ssButton.setLocation(190,210);
+		add(newButton);
+		add(ssButton);
 	}
 
 	@Override
