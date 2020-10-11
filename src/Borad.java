@@ -50,18 +50,19 @@ public class Borad extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		g.drawImage(p.background, 0, 0, size_x - 15, size_y - 38, this);
+		//ชุดแรก
 		g.drawImage(p.p1_right, 565, 485, 80, 80, this);
 		g.drawImage(p.p1_right, 610, 525, 80, 80, this);
 		g.drawImage(p.p1_right, 660, 560, 80, 80, this);
-
+		//ชุด2
 		g.drawImage(p.p1_left, 990, 235, 80, 80, this);
 		g.drawImage(p.p1_left, 1040, 270, 80, 80, this);
 		g.drawImage(p.p1_left, 1090, 305, 80, 80, this);
-
+		//ชุด3
 		g.drawImage(p.p1_left, 555, 0, 80, 80, this);
 		g.drawImage(p.p1_left, 515, 25, 80, 80, this);
 		g.drawImage(p.p1_left, 465, 55, 80, 80, this);
-
+		//ชุด4
 		g.drawImage(p.p1_right, 15, 235, 80, 80, this);
 		g.drawImage(p.p1_right, 65, 270, 80, 80, this);
 		g.drawImage(p.p1_right, 115, 305, 80, 80, this);
