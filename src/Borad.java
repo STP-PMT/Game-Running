@@ -25,10 +25,14 @@ public class Borad extends JPanel {
 
 	JLabel[] Character = new JLabel[12];
 	int[] X = { 565, 610, 660, 990, 1040, 1090, 555, 515, 465, 15, 65, 115 };
-	int[] Y = { 485, 525, 560, 235, 270, 305, 0, 25, 55, 235, 270, 305 };
+	int[] Y = { 485, 525, 560, 235, 270, 305, -10, 25, 55, 235, 270, 305 };
 
 	int[] X1 = { 565, 610, 660, 990, 1040, 1090, 555, 515, 465, 15, 65, 115 };
-	int[] Y1 = { 485, 525, 560, 235, 270, 305, 0, 25, 55, 235, 270, 305 };
+	int[] Y1 = { 485, 525, 560, 235, 270, 305, -10, 25, 55, 235, 270, 305 };
+
+	int[] stop = new int[3];
+
+	int reset[] = new int[3];
 
 	public Borad() {
 		setSize(size_x, size_y);
@@ -49,16 +53,34 @@ public class Borad extends JPanel {
 			Character[i].setSize(80, 80);
 			add(Character[i]);
 		}
+		Move[] team1 = new Move[4];
+		Move[] team2 = new Move[4];
+		Move[] team3 = new Move[4];
+		team1[0] = new Move(Character[0], 0, 3, 1, 0);
+		team1[1] = new Move(Character[3], 3, 8, 2, 0);
+		team1[2] = new Move(Character[8], 8, 11, 3, 0);
+		team1[3] = new Move(Character[11], 11, 0, 4, 0);
 
-		Move c1 = new Move(Character[0],0);
-		c1.setSleep();
-		Move c2 = new Move(Character[1],1);
-		c2.setSleep();
-		// Move c3 = new Move(Character[2], 2, 5, stop, go, 1);
+		team2[0] = new Move(Character[1], 1, 4, 1, 1);
+		team2[1] = new Move(Character[4], 4, 7, 2, 1);
+		team2[2] = new Move(Character[7], 7, 10, 3, 1);
+		team2[3] = new Move(Character[10], 10, 1, 4, 1);
 
-		c1.start();
-		c2.start();
-		// c3.start();
+		team3[0] = new Move(Character[2], 2, 5, 1, 2);
+		team3[1] = new Move(Character[5], 5, 6, 2, 2);
+		team3[2] = new Move(Character[6], 6, 9, 3, 2);
+		team3[3] = new Move(Character[9], 9, 2, 4, 2);
+
+		for (int i = 0; i < 4; i++) {
+			team1[i].setSleep();
+			team2[i].setSleep();
+			team3[i].setSleep();
+
+			team1[i].start();
+			team2[i].start();
+			team3[i].start();
+
+		}
 
 	}
 
@@ -69,32 +91,161 @@ public class Borad extends JPanel {
 
 	class Move extends Thread {
 		private JLabel label;
-		private int index;
+		private int index, j;
 		private int sleep = 0;
+		private boolean Go1 = true;
+		private boolean Go2 = true;
+		private boolean Go3 = true;
+		private boolean Go4 = true;
+		private int row;
+		private int team;
 
-		Move(JLabel label,int index) {
+		Move(JLabel label, int index, int j, int row, int team) {
 			this.label = label;
 			this.index = index;
+			this.j = j;
+			this.row = row;
+			this.team = team;
 		}
-	
+
 		public void setSleep() {
-			this.sleep = new Random().nextInt(30)+1;
+			this.sleep = new Random().nextInt(20) + 5;
+			System.out.println(sleep);
 		}
-	
+
 		@Override
 		public void run() {
 			while (true) {
-				label.setLocation(X[index]++,Y[index]);
+				if (row == 1) {
+					runRow1();
+				} else if (row == 2) {
+					runRow2();
+				} else if (row == 3) {
+					runRow3();
+				} else if (row == 4) {
+					runRow4();
+				}
+
 				try {
 					Thread.sleep(sleep);
 				} catch (Exception e) {
-					// TODO: handle exception
+
 				}
 			}
-	
+
+		}
+
+		public void runRow1() {
+			if (X[index] == X1[j] && Go1) {
+				label.setLocation(X[index], Y[index]--);
+				if (Y[index] == Y1[j]) {
+					Go1 = false;
+					Borad.this.stop[team] = 1;
+					setSleep();
+				}
+			} else if (Borad.this.stop[team] == 0) {
+				label.setLocation(X[index]++, Y[index]);
+			} else {
+				if (Borad.this.stop[team] == -1) {
+					reset[team] = 1;
+					if (Y[index] == Y1[index]) {
+						reset[team] = 0;
+						label.setLocation(X[index]--, Y[index]);
+						if (X[index] == X1[index]) {
+							Borad.this.stop[team] = -5;
+							System.out.println("Win");
+						}
+					}
+					if (reset[team] == 1) {
+						label.setLocation(X[index], Y[index]++);
+					}
+				}
+			}
+		}
+
+		public void runRow2() {
+			if (Y[index] == Y1[j] && Go2) {
+				label.setLocation(X[index]--, Y[index]);
+				if (X[index] == X1[j]) {
+					Go2 = false;
+					Borad.this.stop[team] = 2;
+					setSleep();
+				}
+			} else if (Borad.this.stop[team] == 1) {
+				label.setLocation(X[index], Y[index]--);
+			} else {
+				if (Borad.this.stop[team] == -2) {
+					reset[team] = 1;
+					if (X[index] == X1[index]) {
+						reset[team] = 0;
+						label.setLocation(X[index], Y[index]++);
+						if (Y[index] == Y1[index]) {
+							Borad.this.stop[team] = -1;
+						}
+					}
+					if (reset[team] == 1) {
+						label.setLocation(X[index]++, Y[index]);
+					}
+				}
+			}
+		}
+
+		public void runRow3() {
+			if (X[index] == X1[j] && Go3) {
+				label.setLocation(X[index], Y[index]++);
+				if (Y[index] == Y1[j]) {
+					Go3 = false;
+					Borad.this.stop[team] = 3;
+					setSleep();
+				}
+			} else if (Borad.this.stop[team] == 2) {
+				label.setLocation(X[index]--, Y[index]);
+			} else {
+				if (Borad.this.stop[team] == -3) {
+					reset[team] = 1;
+					if (Y[index] == Y1[index]) {
+						reset[team] = 0;
+						label.setLocation(X[index]++, Y[index]);
+						if (X[index] == X1[index]) {
+							Borad.this.stop[team] = -2;
+						}
+					}
+					if (reset[team] == 1) {
+						label.setLocation(X[index], Y[index]--);
+					}
+
+				}
+			}
+		}
+
+		public void runRow4() {
+			if (Y[index] == Y1[j] && Go4) {
+				label.setLocation(X[index]++, Y[index]);
+				if (X[index] == X1[j]) {
+					Go4 = false;
+					Borad.this.stop[team] = 4;
+					setSleep();
+				}
+			} else if (Borad.this.stop[team] == 3) {
+				label.setLocation(X[index], Y[index]++);
+			} else {
+
+				if (Borad.this.stop[team] == 4) {
+					reset[team] = 1;
+					if (X[index] == X1[index]) {
+						reset[team] = 0;
+						label.setLocation(X[index], Y[index]--);
+						if (Y[index] == Y1[index]) {
+							Borad.this.stop[team] = -3;
+						}
+					}
+					if (reset[team] == 1) {
+						label.setLocation(X[index]--, Y[index]);
+					}
+
+				}
+
+			}
 		}
 	}
 }
-
-
-
