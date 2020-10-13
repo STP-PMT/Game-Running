@@ -1,11 +1,10 @@
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.Image;
 import javax.swing.JLabel;
 import java.util.Random;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -33,6 +32,8 @@ public class Borad extends JPanel {
 	int[] stop = new int[3];
 
 	int reset[] = new int[3];
+	Icon ic = new ImageIcon(p.p1_right.getScaledInstance(80, 80, Image.SCALE_DEFAULT));
+	Icon ic1 = new ImageIcon(p.p1_left.getScaledInstance(80, 80, Image.SCALE_DEFAULT));
 
 	public Borad() {
 		setSize(size_x, size_y);
@@ -46,9 +47,9 @@ public class Borad extends JPanel {
 		ssButton.setLocation(190, 210);
 		add(newButton);
 		add(ssButton);
-
+		
 		for (int i = 0; i < 12; i++) {
-			Character[i] = new JLabel(new ImageIcon(p.p1_right.getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+			Character[i] = new JLabel(new ImageIcon(p.p1_center.getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
 			Character[i].setLocation(X[i], Y[i]);
 			Character[i].setSize(80, 80);
 			add(Character[i]);
@@ -144,6 +145,8 @@ public class Borad extends JPanel {
 					setSleep();
 				}
 			} else if (Borad.this.stop[team] == 0) {
+				
+				label.setIcon(Borad.this.ic);
 				label.setLocation(X[index]++, Y[index]);
 			} else {
 				if (Borad.this.stop[team] == -1) {
@@ -172,6 +175,7 @@ public class Borad extends JPanel {
 					setSleep();
 				}
 			} else if (Borad.this.stop[team] == 1) {
+				label.setIcon(Borad.this.ic1);
 				label.setLocation(X[index], Y[index]--);
 			} else {
 				if (Borad.this.stop[team] == -2) {
