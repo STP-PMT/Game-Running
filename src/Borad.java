@@ -1,5 +1,7 @@
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.Image;
@@ -9,6 +11,8 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 public class Borad extends JPanel {
 	/**
@@ -18,8 +22,8 @@ public class Borad extends JPanel {
 	GameFrame s = new GameFrame();
 	Picture p = new Picture();
 
-	JButton newButton = new JButton("New Game");
-	JButton ssButton = new JButton("Start");
+	JButton newButton = new JButton("NEW GAME");
+	JButton ssButton = new JButton("START/STOP");
 	private int size_x = s.getX();
 	private int size_y = s.getY();
 
@@ -29,7 +33,7 @@ public class Borad extends JPanel {
 
 	int[] X1 = { 565, 610, 660, 990, 1040, 1090, 555, 515, 465, 15, 65, 115 };
 	int[] Y1 = { 485, 525, 560, 235, 270, 305, -10, 25, 55, 235, 270, 305 };
-
+	
 	int[] stop = new int[3];
 
 	int reset[] = new int[3];
@@ -38,14 +42,13 @@ public class Borad extends JPanel {
 		setSize(size_x, size_y);
 		setLocation(0, 0);
 		setLayout(null);
-
+		
 		newButton.setSize(200, 50);
 		newButton.setLocation(190, 150);
 
 		ssButton.setSize(200, 50);
 		ssButton.setLocation(190, 210);
-		add(newButton);
-		add(ssButton);
+		
 
 		for (int i = 0; i < 12; i++) {
 			Character[i] = new JLabel(new ImageIcon(p.p1_right.getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
@@ -79,9 +82,71 @@ public class Borad extends JPanel {
 			team1[i].start();
 			team2[i].start();
 			team3[i].start();
-
 		}
+		
+		newButton.addActionListener(new ActionListener() {
 
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						newGameClicked(e);
+					}
+					private void newGameClicked(ActionEvent e) {
+						if(e.getSource()==newButton) {	
+							for (int i = 0; i < 3; i++) {
+								stop[i] = 0;
+								reset[i] = 0;
+							}
+							for (int i = 0; i < X.length; i++) {
+								X[i] = X1[i];
+								Y[i] = Y1[i];
+								Character[i].setLocation(X1[i], Y1[i]);
+								Character[i].setSize(80, 80);
+								//add(Character[i]);
+							}
+							team1[0] = new Move(Character[0], 0, 3, 1, 0);
+							team1[1] = new Move(Character[3], 3, 8, 2, 0);
+							team1[2] = new Move(Character[8], 8, 11, 3, 0);
+							team1[3] = new Move(Character[11], 11, 0, 4, 0);
+
+							team2[0] = new Move(Character[1], 1, 4, 1, 1);
+							team2[1] = new Move(Character[4], 4, 7, 2, 1);
+							team2[2] = new Move(Character[7], 7, 10, 3, 1);
+							team2[3] = new Move(Character[10], 10, 1, 4, 1);
+
+							team3[0] = new Move(Character[2], 2, 5, 1, 2);
+							team3[1] = new Move(Character[5], 5, 6, 2, 2);
+							team3[2] = new Move(Character[6], 6, 9, 3, 2);
+							team3[3] = new Move(Character[9], 9, 2, 4, 2);
+							
+							for (int i = 0; i < 4; i++) {
+								team1[i].setSleep();
+								team2[i].setSleep();
+								team3[i].setSleep();
+
+								team1[i].start();
+								team2[i].start();
+								team3[i].start();
+							}
+							
+						}
+					}
+			
+				});
+		ssButton.addActionListener(new ActionListener() 
+        {
+        	@Override
+			public void actionPerformed(ActionEvent e) 
+        	{
+        		for (int i = 0; i < 4; i++) 
+				{
+					team1[i].setFlag(!team1[i].isFlag());
+					team2[i].setFlag(!team2[i].isFlag());
+					team3[i].setFlag(!team3[i].isFlag());
+				}
+			}
+		});
+		add(newButton);
+		add(ssButton);
 	}
 
 	@Override
@@ -99,7 +164,8 @@ public class Borad extends JPanel {
 		private boolean Go4 = true;
 		private int row;
 		private int team;
-
+		private boolean flag = false;
+		
 		Move(JLabel label, int index, int j, int row, int team) {
 			this.label = label;
 			this.index = index;
@@ -107,15 +173,22 @@ public class Borad extends JPanel {
 			this.row = row;
 			this.team = team;
 		}
-
+		
 		public void setSleep() {
 			this.sleep = new Random().nextInt(20) + 5;
 			System.out.println(sleep);
 		}
-
+		public boolean isFlag() {
+			return flag;
+		}
+		
+		public void setFlag(boolean flag) {
+			this.flag = flag;
+		}
 		@Override
 		public void run() {
 			while (true) {
+				if(isFlag()) {
 				if (row == 1) {
 					runRow1();
 				} else if (row == 2) {
@@ -125,7 +198,7 @@ public class Borad extends JPanel {
 				} else if (row == 4) {
 					runRow4();
 				}
-
+				}
 				try {
 					Thread.sleep(sleep);
 				} catch (Exception e) {
