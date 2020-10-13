@@ -41,8 +41,9 @@ public class Picture {
                 player2[0] = new ImageIcon(p2_right.getScaledInstance(80, 80, Image.SCALE_DEFAULT));
                 player2[1] = new ImageIcon(p2_right.getScaledInstance(80, 80, Image.SCALE_DEFAULT));
                 player2[2] = new ImageIcon(p2_right.getScaledInstance(150, 150, Image.SCALE_DEFAULT));
-                
+
                System.out.println("Hello World");
+
         }
 
 }
