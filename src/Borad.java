@@ -38,8 +38,6 @@ public class Borad extends JPanel {
 	int[] stop = new int[3];
 
 	int reset[] = new int[3];
-	Icon ic = new ImageIcon(p.p1_right.getScaledInstance(80, 80, Image.SCALE_DEFAULT));
-	Icon ic1 = new ImageIcon(p.p1_left.getScaledInstance(80, 80, Image.SCALE_DEFAULT));
 
 	public Borad() {
 		setSize(size_x, size_y);
@@ -96,21 +94,21 @@ public class Borad extends JPanel {
 	}
 
 	public void setTeam() {
-		team1[0] = new Move(Character[0], 0, 3, 1, 0);
-		team1[1] = new Move(Character[3], 3, 8, 2, 0);
-		team1[2] = new Move(Character[8], 8, 11, 3, 0);
-		team1[3] = new Move(Character[11], 11, 0, 4, 0);
+		team1[0] = new Move(Character[0], 0, 3, 1, 0,p.player1);
+		team1[1] = new Move(Character[3], 3, 8, 2, 0,p.player1);
+		team1[2] = new Move(Character[8], 8, 11, 3, 0,p.player1);
+		team1[3] = new Move(Character[11], 11, 0, 4, 0,p.player1);
 
-		team2[0] = new Move(Character[1], 1, 4, 1, 1);
-		team2[1] = new Move(Character[4], 4, 7, 2, 1);
-		team2[2] = new Move(Character[7], 7, 10, 3, 1);
-		team2[3] = new Move(Character[10], 10, 1, 4, 1);
+		 team2[0] = new Move(Character[1], 1, 4, 1, 1,p.player2);
+		 team2[1] = new Move(Character[4], 4, 7, 2, 1,p.player1);
+		team2[2] = new Move(Character[7], 7, 10, 3, 1,p.player1);
+		team2[3] = new Move(Character[10], 10, 1, 4, 1,p.player1);
 
-		team3[0] = new Move(Character[2], 2, 5, 1, 2);
-		team3[1] = new Move(Character[5], 5, 6, 2, 2);
-		team3[2] = new Move(Character[6], 6, 9, 3, 2);
-		team3[3] = new Move(Character[9], 9, 2, 4, 2);
-
+		 team3[0] = new Move(Character[2], 2, 5, 1, 2,p.player1);
+		 team3[1] = new Move(Character[5], 5, 6, 2, 2,p.player1);
+		team3[2] = new Move(Character[6], 6, 9, 3, 2,p.player1);
+		team3[3] = new Move(Character[9], 9, 2, 4, 2,p.player1);
+	
 		for (int i = 0; i < 4; i++) {
 			team1[i].setSleep();
 			team2[i].setSleep();
@@ -138,13 +136,15 @@ public class Borad extends JPanel {
 		private int row;
 		private int team;
 		private boolean flag = false;
+		private Icon action[];
 
-		Move(JLabel label, int index, int j, int row, int team) {
+		Move(JLabel label, int index, int j, int row, int team,Icon []action) {
 			this.label = label;
 			this.index = index;
 			this.j = j;
 			this.row = row;
 			this.team = team;
+			this.action = action;
 		}
 
 		public void setSleep() {
@@ -185,15 +185,16 @@ public class Borad extends JPanel {
 
 		public void runRow1() {
 			if (X[index] == X1[j] && Go1) {
+				label.setIcon((Icon)action[1]);
 				label.setLocation(X[index], Y[index]--);
 				if (Y[index] == Y1[j]) {
+					label.setIcon((Icon)action[0]);
 					Go1 = false;
 					Borad.this.stop[team] = 1;
 					setSleep();
 				}
 			} else if (Borad.this.stop[team] == 0) {
-
-				label.setIcon(Borad.this.ic);
+				label.setIcon((Icon)action[2]);
 				label.setLocation(X[index]++, Y[index]);
 			} else {
 				if (Borad.this.stop[team] == -1) {
@@ -222,7 +223,6 @@ public class Borad extends JPanel {
 					setSleep();
 				}
 			} else if (Borad.this.stop[team] == 1) {
-				label.setIcon(Borad.this.ic1);
 				label.setLocation(X[index], Y[index]--);
 			} else {
 				if (Borad.this.stop[team] == -2) {
