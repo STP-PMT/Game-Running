@@ -266,7 +266,7 @@ public class Borad extends JPanel {
 				if (Borad.this.stop[team] == -3) {
 					reset[team] = 1;
 					if (Y[index] == Y1[index]) {
-						label.setIcon((Icon)action[1]);
+						label.setIcon((Icon)action[2]);
 						reset[team] = 0;
 						label.setLocation(X[index]++, Y[index]);
 						if (X[index] == X1[index]) {
@@ -275,7 +275,7 @@ public class Borad extends JPanel {
 						}
 					}
 					if (reset[team] == 1) {
-						label.setIcon((Icon)action[1]);
+						label.setIcon((Icon)action[2]);
 						label.setLocation(X[index], Y[index]--);
 					}
 
