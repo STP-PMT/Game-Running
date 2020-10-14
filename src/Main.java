@@ -13,9 +13,6 @@ public class Main {
 }
 
 class GameFrame extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int size_x = 1200;
 	private int size_y = 700;
