@@ -218,25 +218,31 @@ public class Borad extends JPanel {
 
 		public void runRow2() {
 			if (Y[index] == Y1[j] && Go2) {
+				label.setIcon((Icon)action[1]);
 				label.setLocation(X[index]--, Y[index]);
 				if (X[index] == X1[j]) {
+					label.setIcon((Icon)action[0]);
 					Go2 = false;
 					Borad.this.stop[team] = 2;
 					setSleep();
 				}
 			} else if (Borad.this.stop[team] == 1) {
+				label.setIcon((Icon)action[1]);
 				label.setLocation(X[index], Y[index]--);
 			} else {
 				if (Borad.this.stop[team] == -2) {
 					reset[team] = 1;
 					if (X[index] == X1[index]) {
+						label.setIcon((Icon)action[1]);
 						reset[team] = 0;
 						label.setLocation(X[index], Y[index]++);
 						if (Y[index] == Y1[index]) {
+							label.setIcon((Icon)action[0]);
 							Borad.this.stop[team] = -1;
 						}
 					}
 					if (reset[team] == 1) {
+						label.setIcon((Icon)action[2]);
 						label.setLocation(X[index]++, Y[index]);
 					}
 				}
@@ -245,25 +251,31 @@ public class Borad extends JPanel {
 
 		public void runRow3() {
 			if (X[index] == X1[j] && Go3) {
+				label.setIcon((Icon)action[2]);
 				label.setLocation(X[index], Y[index]++);
 				if (Y[index] == Y1[j]) {
+					label.setIcon((Icon)action[0]);
 					Go3 = false;
 					Borad.this.stop[team] = 3;
 					setSleep();
 				}
 			} else if (Borad.this.stop[team] == 2) {
+				label.setIcon((Icon)action[1]);
 				label.setLocation(X[index]--, Y[index]);
 			} else {
 				if (Borad.this.stop[team] == -3) {
 					reset[team] = 1;
 					if (Y[index] == Y1[index]) {
+						label.setIcon((Icon)action[1]);
 						reset[team] = 0;
 						label.setLocation(X[index]++, Y[index]);
 						if (X[index] == X1[index]) {
+							label.setIcon((Icon)action[0]);
 							Borad.this.stop[team] = -2;
 						}
 					}
 					if (reset[team] == 1) {
+						label.setIcon((Icon)action[1]);
 						label.setLocation(X[index], Y[index]--);
 					}
 
@@ -273,26 +285,32 @@ public class Borad extends JPanel {
 
 		public void runRow4() {
 			if (Y[index] == Y1[j] && Go4) {
+				label.setIcon((Icon)action[2]);
 				label.setLocation(X[index]++, Y[index]);
 				if (X[index] == X1[j]) {
+					label.setIcon((Icon)action[0]);
 					Go4 = false;
 					Borad.this.stop[team] = 4;
 					setSleep();
 				}
 			} else if (Borad.this.stop[team] == 3) {
+				label.setIcon((Icon)action[2]);
 				label.setLocation(X[index], Y[index]++);
 			} else {
 
 				if (Borad.this.stop[team] == 4) {
 					reset[team] = 1;
 					if (X[index] == X1[index]) {
+						label.setIcon((Icon)action[1]);
 						reset[team] = 0;
 						label.setLocation(X[index], Y[index]--);
 						if (Y[index] == Y1[index]) {
+							label.setIcon((Icon)action[0]);
 							Borad.this.stop[team] = -3;
 						}
 					}
 					if (reset[team] == 1) {
+						label.setIcon((Icon)action[1]);
 						label.setLocation(X[index]--, Y[index]);
 					}
 
