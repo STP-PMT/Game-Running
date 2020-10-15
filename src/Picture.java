@@ -10,7 +10,7 @@ public class Picture {
 
         Image background = Toolkit.getDefaultToolkit().createImage(System.getProperty("user.dir") + File.separator
                         + "src" + File.separator + "images" + File.separator + "Back.png");
-
+        Icon[] allStart = new Icon[12];
         Icon[] player1 = new Icon[3];
         Icon[] player2 = new Icon[3];
         Icon[] player3 = new Icon[3];
@@ -26,16 +26,16 @@ public class Picture {
 
         Picture() {
                 setImage(player1, 1, 80, 80);
-                setImage(player2, 2, 80, 80);
-                setImage(player3, 3, 80, 80);
+                setImage(player2, 2, 50, 50);
+                setImage(player3, 3, 50, 50);
                 setImage(player4, 4, 80, 80);
-                setImage(player5, 5, 80, 80);
-                setImage(player6, 6, 80, 80);
-                setImage(player7, 7, 80, 80);
-                setImage(player8, 8, 80, 80);
-                setImage(player9, 9, 80, 80);
+                setImage(player5, 5, 60, 60);
+                setImage(player6, 6, 50, 50);
+                setImage(player7, 7, 60, 60);
+                setImage(player8, 8, 60, 60);
+                setImage(player9, 9, 50, 50);
                 setImage(player10, 10, 80, 80);
-                setImage(player11, 11, 80, 80);
+                setImage(player11, 11, 60, 60);
                 setImage(player12, 12, 80, 80);
         }
 
@@ -43,6 +43,7 @@ public class Picture {
                 player[0] = new ImageIcon(setPic("p" + n + "_center.gif").getScaledInstance(x, y, Image.SCALE_DEFAULT));
                 player[1] = new ImageIcon(setPic("p" + n + "_left.gif").getScaledInstance(x, y, Image.SCALE_DEFAULT));
                 player[2] = new ImageIcon(setPic("p" + n + "_right.gif").getScaledInstance(x, y, Image.SCALE_DEFAULT));
+                allStart[n-1]=new ImageIcon(setPic("p" + n + "_center.gif").getScaledInstance(x, y, Image.SCALE_DEFAULT));
 
         }
 
