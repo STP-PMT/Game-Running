@@ -43,7 +43,8 @@ public class Picture {
                 player[0] = new ImageIcon(setPic("p" + n + "_center.gif").getScaledInstance(x, y, Image.SCALE_DEFAULT));
                 player[1] = new ImageIcon(setPic("p" + n + "_left.gif").getScaledInstance(x, y, Image.SCALE_DEFAULT));
                 player[2] = new ImageIcon(setPic("p" + n + "_right.gif").getScaledInstance(x, y, Image.SCALE_DEFAULT));
-                allStart[n-1]=new ImageIcon(setPic("p" + n + "_center.gif").getScaledInstance(x, y, Image.SCALE_DEFAULT));
+                allStart[n - 1] = new ImageIcon(
+                                setPic("p" + n + "_center.gif").getScaledInstance(x, y, Image.SCALE_DEFAULT));
 
         }
 

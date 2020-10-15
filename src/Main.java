@@ -5,11 +5,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		GameFrame frame = new GameFrame();
-		Borad borad = new Borad();
+		Board borad = new Board();
 		frame.add(borad);
 		frame.setVisible(true);
 	}
-
 }
 
 class GameFrame extends JFrame {

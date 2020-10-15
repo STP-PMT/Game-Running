@@ -4,47 +4,47 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import java.util.Random;
+import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class Borad extends JPanel {
-	/**
-	 * 
-	 */
+public class Board extends JPanel {
 	private static final long serialVersionUID = 1L;
-	GameFrame s = new GameFrame();
-	Picture p = new Picture();
+	private GameFrame s = new GameFrame();
+	private Picture p = new Picture();
 
-	JButton newButton = new JButton("NEW GAME");
-	JButton ssButton = new JButton("START/STOP");
+	private JButton newButton = new JButton("NEW GAME");
+	private JButton ssButton = new JButton("START");
+
+	private JLabel[] Character = new JLabel[12];
+	private JLabel[] score = new JLabel[3];
+
+	private final int[] X1 = { 565, 610, 660, 990, 1060, 1105, 555, 515, 470, 15, 65, 115 };
+	private final int[] Y1 = { 485, 515, 560, 235, 270, 305, -20, 15, 55, 235, 270, 305 };
+	private int[] X = { 565, 610, 660, 990, 1060, 1105, 555, 515, 470, 15, 65, 115 };
+	private int[] Y = { 485, 515, 560, 235, 270, 305, -20, 15, 55, 235, 270, 305 };
+	private int[] stop = new int[3];
+	private int[] reset = new int[3];
 	private int size_x = s.getX();
 	private int size_y = s.getY();
+	private int sum = 0; // ใช้สำหลับเก็บค่าคนที่ถึงเส้นชัยก่อน
 
-	JLabel[] Character = new JLabel[12];
-	int[] X = { 565, 610, 660, 990, 1060, 1105, 555, 515, 470, 15, 65, 115 };
-	int[] Y = { 485, 515, 560, 235, 270, 305, -20, 15, 55, 235, 270, 305 };
+	private Move[] team1 = new Move[4];
+	private Move[] team2 = new Move[4];
+	private Move[] team3 = new Move[4];
 
-	int[] X1 = { 565, 610, 660, 990, 1060, 1105, 555, 515, 470, 15, 65, 115 };
-	int[] Y1 = { 485, 515, 560, 235, 270, 305, -20, 15, 55, 235, 270, 305 };
+	private boolean isChecked = false;
 
-	Move[] team1 = new Move[4];
-	Move[] team2 = new Move[4];
-	Move[] team3 = new Move[4];
-
-	int[] stop = new int[3];
-
-	int reset[] = new int[3];
-
-	public Borad() {
+	public Board() {
 		setSize(size_x, size_y);
 		setLocation(0, 0);
 		setLayout(null);
-
 		newButton.setSize(200, 50);
+		newButton.setEnabled(false);
 		newButton.setLocation(190, 150);
-
 		ssButton.setSize(200, 50);
 		ssButton.setLocation(190, 210);
 
@@ -55,7 +55,7 @@ public class Borad extends JPanel {
 			Character[i].setIcon(p.allStart[i]);
 			add(Character[i]);
 		}
-
+		setNumber();
 		setTeam();
 
 		newButton.addActionListener(new ActionListener() {
@@ -67,6 +67,20 @@ public class Borad extends JPanel {
 		ssButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
+				if (isChecked) {
+					newButton.setEnabled(true);
+					ssButton.setText("START");
+					isChecked = false;
+
+					for (int i = 0; i < X.length; i++) {
+						Character[i].setIcon(p.allStart[i]);
+					}
+				} else {
+					ssButton.setText("STOP");
+					newButton.setEnabled(false);
+					isChecked = true;
+				}
 				for (int i = 0; i < 4; i++) {
 					team1[i].setFlag(!team1[i].isFlag());
 					team2[i].setFlag(!team2[i].isFlag());
@@ -88,7 +102,12 @@ public class Borad extends JPanel {
 			Y[i] = Y1[i];
 			Character[i].setLocation(X1[i], Y1[i]);
 			Character[i].setSize(100, 100);
+			Character[i].setIcon(p.allStart[i]);
 		}
+		score[0].setText("");
+		score[1].setText("");
+		score[2].setText("");
+		sum = 0;
 		setTeam();
 	}
 
@@ -124,17 +143,79 @@ public class Borad extends JPanel {
 		g.drawImage(p.background, 0, 0, size_x - 15, size_y - 38, this);
 	}
 
+	public void setNumber() {
+		Font font = new Font("", Font.BOLD, 20);
+		JLabel lavel1 = new JLabel("NO.1 :");
+		JLabel lavel2 = new JLabel("NO.2 :");
+		JLabel lavel3 = new JLabel("NO.3 :");
+
+		JLabel[] num = new JLabel[3];
+
+		for (int i = 0; i < 3; i++) {
+			num[i] = new JLabel("" + (i + 1));
+			num[i].setSize(100, 50);
+			num[i].setFont(font);
+			num[i].setForeground(Color.BLACK);
+
+			score[i] = new JLabel("");
+			score[i].setSize(100, 50);
+			score[i].setFont(font);
+			score[i].setForeground(Color.BLACK);
+		}
+
+		num[0].setLocation(630, 520);
+		num[1].setLocation(670, 555);
+		num[2].setLocation(710, 595);
+
+		score[0].setLocation(480, 135);
+		score[1].setLocation(480, 180);
+		score[2].setLocation(480, 225);
+
+		lavel1.setLocation(420, 135);
+		lavel1.setSize(100, 50);
+		lavel1.setFont(font);
+		lavel1.setForeground(Color.BLACK);
+
+		lavel2.setLocation(420, 180);
+		lavel2.setSize(100, 50);
+		lavel2.setFont(font);
+		lavel2.setForeground(Color.BLACK);
+
+		lavel3.setLocation(420, 225);
+		lavel3.setSize(100, 50);
+		lavel3.setFont(font);
+		lavel3.setForeground(Color.BLACK);
+
+		add(lavel1);
+		add(lavel2);
+		add(lavel3);
+
+		for (int i = 0; i < 3; i++) {
+			add(score[i]);
+			add(score[i]);
+			add(score[i]);
+
+			add(num[i]);
+			add(num[i]);
+			add(num[i]);
+		}
+
+	}
+
 	class Move extends Thread {
 		private JLabel label;
+
 		private int index, j;
 		private int sleep = 0;
+		private int row;
+		private int team;
+
+		private boolean flag = false;
 		private boolean Go1 = true;
 		private boolean Go2 = true;
 		private boolean Go3 = true;
 		private boolean Go4 = true;
-		private int row;
-		private int team;
-		private boolean flag = false;
+		
 		private Icon action[];
 
 		Move(JLabel label, int index, int j, int row, int team, Icon[] action) {
@@ -189,14 +270,14 @@ public class Borad extends JPanel {
 				if (Y[index] == Y1[j]) {
 					label.setIcon((Icon) action[0]);
 					Go1 = false;
-					Borad.this.stop[team] = 1;
+					Board.this.stop[team] = 1;
 					setSleep();
 				}
-			} else if (Borad.this.stop[team] == 0) {
+			} else if (Board.this.stop[team] == 0) {
 				label.setIcon((Icon) action[2]);
 				label.setLocation(X[index]++, Y[index]);
 			} else {
-				if (Borad.this.stop[team] == -1) {
+				if (Board.this.stop[team] == -1) {
 					reset[team] = 1;
 					if (Y[index] == Y1[index]) {
 						label.setIcon((Icon) action[1]);
@@ -204,7 +285,16 @@ public class Borad extends JPanel {
 						label.setLocation(X[index]--, Y[index]);
 						if (X[index] == X1[index]) {
 							label.setIcon((Icon) action[0]);
-							Borad.this.stop[team] = -5;
+							Board.this.stop[team] = -5;
+							if (sum == 0) {
+								score[0].setText("Team  " + (team + 1));
+								sum = 1;
+							} else if (sum == 1) {
+								score[1].setText("Team  " + (team + 1));
+								sum = 2;
+							} else {
+								score[2].setText("Team  " + (team + 1));
+							}
 							System.out.println("Win");
 						}
 					}
@@ -223,14 +313,14 @@ public class Borad extends JPanel {
 				if (X[index] == X1[j]) {
 					label.setIcon((Icon) action[0]);
 					Go2 = false;
-					Borad.this.stop[team] = 2;
+					Board.this.stop[team] = 2;
 					setSleep();
 				}
-			} else if (Borad.this.stop[team] == 1) {
+			} else if (Board.this.stop[team] == 1) {
 				label.setIcon((Icon) action[1]);
 				label.setLocation(X[index], Y[index]--);
 			} else {
-				if (Borad.this.stop[team] == -2) {
+				if (Board.this.stop[team] == -2) {
 					reset[team] = 1;
 					if (X[index] == X1[index]) {
 						label.setIcon((Icon) action[1]);
@@ -238,7 +328,7 @@ public class Borad extends JPanel {
 						label.setLocation(X[index], Y[index]++);
 						if (Y[index] == Y1[index]) {
 							label.setIcon((Icon) action[0]);
-							Borad.this.stop[team] = -1;
+							Board.this.stop[team] = -1;
 						}
 					}
 					if (reset[team] == 1) {
@@ -256,14 +346,14 @@ public class Borad extends JPanel {
 				if (Y[index] == Y1[j]) {
 					label.setIcon((Icon) action[0]);
 					Go3 = false;
-					Borad.this.stop[team] = 3;
+					Board.this.stop[team] = 3;
 					setSleep();
 				}
-			} else if (Borad.this.stop[team] == 2) {
+			} else if (Board.this.stop[team] == 2) {
 				label.setIcon((Icon) action[1]);
 				label.setLocation(X[index]--, Y[index]);
 			} else {
-				if (Borad.this.stop[team] == -3) {
+				if (Board.this.stop[team] == -3) {
 					reset[team] = 1;
 					if (Y[index] == Y1[index]) {
 						label.setIcon((Icon) action[2]);
@@ -271,7 +361,7 @@ public class Borad extends JPanel {
 						label.setLocation(X[index]++, Y[index]);
 						if (X[index] == X1[index]) {
 							label.setIcon((Icon) action[0]);
-							Borad.this.stop[team] = -2;
+							Board.this.stop[team] = -2;
 						}
 					}
 					if (reset[team] == 1) {
@@ -290,15 +380,15 @@ public class Borad extends JPanel {
 				if (X[index] == X1[j]) {
 					label.setIcon((Icon) action[0]);
 					Go4 = false;
-					Borad.this.stop[team] = 4;
+					Board.this.stop[team] = 4;
 					setSleep();
 				}
-			} else if (Borad.this.stop[team] == 3) {
+			} else if (Board.this.stop[team] == 3) {
 				label.setIcon((Icon) action[2]);
 				label.setLocation(X[index], Y[index]++);
 			} else {
 
-				if (Borad.this.stop[team] == 4) {
+				if (Board.this.stop[team] == 4) {
 					reset[team] = 1;
 					if (X[index] == X1[index]) {
 						label.setIcon((Icon) action[2]);
@@ -306,7 +396,7 @@ public class Borad extends JPanel {
 						label.setLocation(X[index], Y[index]--);
 						if (Y[index] == Y1[index]) {
 							label.setIcon((Icon) action[0]);
-							Borad.this.stop[team] = -3;
+							Board.this.stop[team] = -3;
 						}
 					}
 					if (reset[team] == 1) {
@@ -315,7 +405,6 @@ public class Borad extends JPanel {
 					}
 
 				}
-
 			}
 		}
 	}
