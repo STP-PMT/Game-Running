@@ -1,18 +1,19 @@
-
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JLabel;
-import java.util.Random;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 
+import javax.swing.JLabel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import java.util.Random;
+
 public class Board extends JPanel {
 	private static final long serialVersionUID = 1L;
+
 	private GameFrame s = new GameFrame();
 	private Picture p = new Picture();
 
@@ -96,6 +97,7 @@ public class Board extends JPanel {
 		for (int i = 0; i < 3; i++) {
 			stop[i] = 0;
 			reset[i] = 0;
+			score[i].setText("");
 		}
 		for (int i = 0; i < X.length; i++) {
 			X[i] = X1[i];
@@ -104,9 +106,6 @@ public class Board extends JPanel {
 			Character[i].setSize(100, 100);
 			Character[i].setIcon(p.allStart[i]);
 		}
-		score[0].setText("");
-		score[1].setText("");
-		score[2].setText("");
 		sum = 0;
 		setTeam();
 	}
@@ -145,10 +144,7 @@ public class Board extends JPanel {
 
 	public void setNumber() {
 		Font font = new Font("", Font.BOLD, 20);
-		JLabel lavel1 = new JLabel("NO.1 :");
-		JLabel lavel2 = new JLabel("NO.2 :");
-		JLabel lavel3 = new JLabel("NO.3 :");
-
+		JLabel[] order = new JLabel[3];
 		JLabel[] num = new JLabel[3];
 
 		for (int i = 0; i < 3; i++) {
@@ -161,6 +157,11 @@ public class Board extends JPanel {
 			score[i].setSize(100, 50);
 			score[i].setFont(font);
 			score[i].setForeground(Color.BLACK);
+
+			order[i] = new JLabel("NO."+(i+1)+" : ");
+			order[i].setSize(100, 50);
+			order[i].setFont(font);
+			order[i].setForeground(Color.BLACK);
 		}
 
 		num[0].setLocation(630, 520);
@@ -171,33 +172,14 @@ public class Board extends JPanel {
 		score[1].setLocation(480, 180);
 		score[2].setLocation(480, 225);
 
-		lavel1.setLocation(420, 135);
-		lavel1.setSize(100, 50);
-		lavel1.setFont(font);
-		lavel1.setForeground(Color.BLACK);
-
-		lavel2.setLocation(420, 180);
-		lavel2.setSize(100, 50);
-		lavel2.setFont(font);
-		lavel2.setForeground(Color.BLACK);
-
-		lavel3.setLocation(420, 225);
-		lavel3.setSize(100, 50);
-		lavel3.setFont(font);
-		lavel3.setForeground(Color.BLACK);
-
-		add(lavel1);
-		add(lavel2);
-		add(lavel3);
-
+		order[0].setLocation(420, 135);
+		order[1].setLocation(420, 180);
+		order[2].setLocation(420, 225);
+		
 		for (int i = 0; i < 3; i++) {
 			add(score[i]);
-			add(score[i]);
-			add(score[i]);
-
 			add(num[i]);
-			add(num[i]);
-			add(num[i]);
+			add(order[i]);
 		}
 
 	}
@@ -215,7 +197,7 @@ public class Board extends JPanel {
 		private boolean Go2 = true;
 		private boolean Go3 = true;
 		private boolean Go4 = true;
-		
+
 		private Icon action[];
 
 		Move(JLabel label, int index, int j, int row, int team, Icon[] action) {
