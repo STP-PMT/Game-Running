@@ -36,7 +36,7 @@ public class Board extends JPanel {
 	private Move[] team1 = new Move[4];
 	private Move[] team2 = new Move[4];
 	private Move[] team3 = new Move[4];
-	Font font = new Font("", Font.BOLD, 20);
+	Font font = new Font("Tahoma", Font.BOLD, 20);
 
 	private boolean isChecked = false;
 
@@ -143,8 +143,8 @@ public class Board extends JPanel {
 		g.drawImage(p.background, 0, 0, size_x - 15, size_y - 38, this);
 		g.setFont(font);
 		g.drawString("62011212109  นาย สิทธิพงษ์ แปลมูลตรี", 300, 400);
-		g.drawString("62011212039  นาบ ชลสิทธิ์ ประสวยศรี", 300, 440);
-		g.drawString("62011212131 นางสาว อิศราภรณ์ ผลอ้อ ", 300, 480);
+		g.drawString("62011212039  นาบ ชลสิทธิ์ ประสวนศรี", 300, 440);
+		g.drawString("62011212131 นางสาว อิศราภรณ์ ผลอ้อ ",300, 480);
 	}
 
 	public void setNumber() {
