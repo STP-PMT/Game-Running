@@ -31,11 +31,12 @@ public class Board extends JPanel {
 	private int[] reset = new int[3];
 	private int size_x = s.getX();
 	private int size_y = s.getY();
-	private int sum = 0; // ใช้สำหลับเก็บค่าคนที่ถึงเส้นชัยก่อน
+	private int sum = 0; // เน�เธ�เน�เธชเธณเธซเธฅเธฑเธ�เน€เธ�เน�เธ�เธ�เน�เธฒเธ�เธ�เธ—เธตเน�เธ–เธถเธ�เน€เธชเน�เธ�เธ�เธฑเธขเธ�เน�เธญเธ�
 
 	private Move[] team1 = new Move[4];
 	private Move[] team2 = new Move[4];
 	private Move[] team3 = new Move[4];
+	Font font = new Font("", Font.BOLD, 20);
 
 	private boolean isChecked = false;
 
@@ -140,12 +141,17 @@ public class Board extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		g.drawImage(p.background, 0, 0, size_x - 15, size_y - 38, this);
+		g.setFont(font);
+		g.drawString("62011212109  นาย สิทธิพงษ์ แปลมูลตรี", 300, 400);
+		g.drawString("62011212039  นาบ ชลสิทธิ์ ประสวยศรี", 300, 440);
+		g.drawString("62011212131 นางสาว อิศราภรณ์ ผลอ้อ ", 300, 480);
 	}
 
 	public void setNumber() {
 		Font font = new Font("", Font.BOLD, 20);
 		JLabel[] order = new JLabel[3];
 		JLabel[] num = new JLabel[3];
+		JLabel name = new JLabel();
 
 		for (int i = 0; i < 3; i++) {
 			num[i] = new JLabel("" + (i + 1));
