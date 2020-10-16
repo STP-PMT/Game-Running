@@ -216,7 +216,7 @@ public class Board extends JPanel {
 		}
 
 		public void setSleep() {
-			this.sleep = new Random().nextInt(20) + 5;
+			this.sleep = new Random().nextInt(10) + 1;
 			System.out.println(sleep);
 		}
 
