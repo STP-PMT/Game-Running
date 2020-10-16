@@ -151,8 +151,7 @@ public class Board extends JPanel {
 		Font font = new Font("", Font.BOLD, 20);
 		JLabel[] order = new JLabel[3];
 		JLabel[] num = new JLabel[3];
-		JLabel name = new JLabel();
-
+		
 		for (int i = 0; i < 3; i++) {
 			num[i] = new JLabel("" + (i + 1));
 			num[i].setSize(100, 50);
